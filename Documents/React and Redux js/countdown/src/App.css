@@ -3,8 +3,8 @@
 
     text-align: center;
     font-size: 35px;
-    margin-top: 15%;
-   
+    margin: 15%;
+       
     
 
 }
@@ -49,8 +49,23 @@
     display: inline;
     text-align: center;
     position: absolute;
-    margin: 60px;
-    margin-left: -120px;
+    margin: 50px;
+
+    margin-left: -200px;
+    
+    object-position: center;
+
+    
+    
+}
+.alender{
+
+    display: inline;
+    text-align: center;
+    position: absolute;
+    margin: 50px;
+    margin-left: 380px;
+    
     
     object-position: center;
 
@@ -72,9 +87,10 @@
 
 .vertical-center {
 	min-height: 100vh;
-	margin: 30 30;
-     display: block;
-	align-items: center;
+	margin: 1px;
+    display: block;
+    align-items: center;
+    
 }
 
 

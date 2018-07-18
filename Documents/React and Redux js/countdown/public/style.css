@@ -1,0 +1,11 @@
+body{
+    background: /*url(birthday.jpg) repeat center center*/ black;
+    font-family:  "snell roundhand ", cursive;
+}
+#root{
+  color: grey;
+  text-align: center;
+  font-size: 50px;
+  letter-spacing: 10px;
+}
+
