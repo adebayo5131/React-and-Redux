@@ -10,7 +10,13 @@ class Profile extends Component{
 
         //artist object
 
-        let artist = {name: '', followers: {formattedtotal: ''}, images: [{url: ''}], genres: []};
+        let artist = 
+        {
+           name: '', 
+           followers: {formattedtotal: ''}, 
+           images: [{url: ''}],
+            genres: []
+        };
         artist = this.props.artist !== undefined ? this.props.artist : artist;
 
 

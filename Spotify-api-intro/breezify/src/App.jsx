@@ -6,6 +6,7 @@ import Profile from './Profile'
 import Gallery from './Gallery'
 
 
+
 //Spotify API
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
@@ -17,13 +18,15 @@ class App extends Component {
 
 
     this.state = {
-      
-        query: '',
-        artist: null,  // my response.
-        tracks: []
+    
+      query: '',
+      artist: null,  // my response.
+      tracks: [],
+      user: ''
 
-      
     }
+
+
 
 
   }
@@ -36,8 +39,10 @@ class App extends Component {
 
     console.log('this.state', this.state);
     const BASE_URL = 'https://api.spotify.com/v1/search?';
-    let FETCH_URL = BASE_URL + 'q=' + this.state.query + '&type=artist&limit=1';
-    var accessToken = 'BQDuPqnQz8BeN5IS2KlB2fAkGZfGsqsAg_9ZWucwhugSSVAztjj6s2Qyq7Bx6ZW-tKZN_nVyYnqGT7ogLA2CgX1MNbqU9l5nXSCOoWWxWMRdXqGmLprcghLzlHiXDAbwnKIWOILxrTNgtna5nJXFK3K8I3DxFTrPaBmNkvRdmZ-Mkzh66d4GHig&refresh_token=AQBa3oCHRL3ss3W1IkNDz1GTS5by5opr6GwsGgCFn48XsmKXRxrFfVcsiluJctP_ddawQFae3SoKUw3JozpG3fDFBhUeIH6uV1Xv8wKRhz-Ctu4_ak8FVs7_opzhy8FN-b4'
+    let FETCH_URL = BASE_URL + 'q=' + this.state.query + '&type=artist&limit=50';
+    var accessToken = 'BQDCtTjYXfIF_eBSBKzASyY5FdnT2kvdxKuMf4mFdEnKEspsWZcP2P_cdogQiBuPz9KQ_mxeoqh5CaSMBevcWMHEniE2tDUo_xZoK-xIEsmnpaox2Ooy0EIhI1ZnDjd7l9q2DmSrYAPPAaSHHfbBxfK489rtR5TZxfL4GHXeD9yoiG5bbMT6agA&refresh_token=AQBidQrAmjEUeTYl3uJBlBX0uUDYbLj5q9H9qkSeYYc67Yd-nKaONf2C_hLccXMJgcQ_YQQMBFEzq2A-bY_3I5As3sia7zx3Dae2TjvF3oYCy7xyyWMeYIMAJXO3-FHosoQ'
+
+    const CURRENT_USER = 'https://api.spotify.com/v1/me';
 
     const ALBUM_URL = 'https://api.spotify.com/v1/artists/';
 
@@ -65,16 +70,29 @@ class App extends Component {
             const { tracks } = json;
             this.setState({ tracks });
           })
+
+
+      fetch(CURRENT_USER, myToken)
+      .then(response => response.json())
+      .then(json => {
+        console.log('Current user App.jsx:', json);
+        const user = json.user;
+        this.setState({ user });
       })
 
+
+      })
 
   }
 
 
   render() {
 
+  
+
     return (
       <div className="App">
+
         <div className="App-title">
           Breezify MusicApp
                 </div>
@@ -91,6 +109,7 @@ class App extends Component {
               onKeyPress={event => {
                 if (event.key === 'Enter') {
                   this.search()
+              
                 }
               }
               }
@@ -113,6 +132,12 @@ class App extends Component {
               <Gallery
                 tracks={this.state.tracks}
               />
+
+
+             
+
+         
+
             </div>
             : <div></div>
         }
