@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { addReminder, deleteReminder} from '../actions'
+import { connect } from 'react-redux';
+import { addReminder, deleteReminder,clearReminders,alert} from '../actions'
+import moment from 'moment';
 
 
 class App extends Component {
@@ -9,48 +10,65 @@ class App extends Component {
         super(props);
 
         this.state = {
-            text: ' '
+            text: ' ',
+            dueDate: ' '
         }
     }
-    
-   
+
+
 
     addReminder() {
-
-        this.props.addReminder(this.state.text)
+        console.log('this due date', this.state.dueDate)
+        this.props.addReminder(this.state.text, this.state.dueDate)
     }
 
-    deleteReminder(id){
+    deleteReminder(id) {
 
-        console.log('deleting in application', id);
-        console.log("this.props", this.props)
+        this.props.deleteReminder(id);
     }
 
-    renderReminders(){
+    alert(dueDate){
+         this.props.alert(dueDate);
+    }
 
-        const {reminders} = this.props;
+
+    renderReminders() {
+
+        const { reminders } = this.props;
 
         /* returning an unordered list using jsx */
-        return(
+        return (
             <ul className="list-group col-sm-4">
-              {
-                  reminders.map(reminder => {
-                      return(
-                          <li key={reminder.id} className="list-group-item">
+                {
+                    reminders.map(reminder => {
+                        return (
+                            <li key={reminder.id} className="list-group-item">
 
-                            <div className="list-item">{reminder.text}</div>
+                                <div className="list-item">
+                                {/*  rendering reminders onto the screen */}
 
-                            <div 
-                            className="list-item delete-button"
-                            onClick={() => this.deleteReminder(reminder.id)}>
-                             &#x2715;
+
+                                <div>{reminder.text}</div>
+                                <div>
+                                    <em>
+                                        {moment (new Date (reminder.dueDate)).fromNow()}
+                                    </em>
+                                </div>
+                                
+                                </div>
+                                
+
+                                <div
+                                    className="list-item delete-button"
+                                    onClick={() => this.deleteReminder(reminder.id)}>
+                                    &#x2715;
                             </div>
 
-                          </li>
-                      )
-                  })
-              }
-               
+                            </li>
+                        )
+                    })
+                }
+
             </ul>
         )
     }
@@ -58,13 +76,13 @@ class App extends Component {
 
     render() {
 
-         
+
         return (
 
             <div className="App">
                 <div className="title">
                     Todo List
-                
+
                 </div>
 
                 <div className="form-inline reminder-form">
@@ -76,42 +94,57 @@ class App extends Component {
 
                             onChange={event => this.setState({ text: event.target.value })}
                         />
-                    </div>      
+
+                        <input
+                            className="form-control"
+                            type="datetime-local"
+                            onChange={event => this.setState({ dueDate: event.target.value })}
+                        />
+
+                    </div>
 
                     <button
 
-                            type="button"
-                            className="btn btn-success"
-                            onClick={() => this.addReminder()}
-                             >
+                        type="button"
+                        className="btn btn-success"
+                        onClick={() => this.addReminder()}
+                    >
 
-                            Add Todo Item
+                        Add Todo Item
 
                     </button>
 
                 </div>
 
-                    {
-                            this.renderReminders()
-                    }
+                {
+                    this.renderReminders()
+                }
 
+                <div 
+                className="btn btn-danger"
+                onClick={() => this.props.clearReminders()}
+                >
+                Clear All
+                
                 </div>
 
-          
+            </div>
+
+
         )
     }
 
 
 }
 
-function mapStateToProps(state){
-   
+function mapStateToProps(state) {
 
-    return{
+
+    return {
         reminders: state
     }
 }
 
 
 
-export default connect(mapStateToProps, {addReminder, deleteReminder})(App);
+export default connect(mapStateToProps, { addReminder, deleteReminder, clearReminders})(App);
